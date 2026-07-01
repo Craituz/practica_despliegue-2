@@ -2,31 +2,24 @@ pipeline {
     agent any
 
     tools {
-        nodejs "Node25" // Configura una instalación de Node.js en Jenkins
-        dockerTool 'DockerTool'  // Cambia el nombre de la herramienta según tu configuración en Jenkins
-    }
-
-    environment {
-        DOCKER_API_VERSION = '1.40'
+        nodejs "Node25"
+        dockerTool 'DockerTool'
     }
 
     stages {
         stage('Construir Imagen Docker') {
             steps {
-                sh 'docker build -t hola-mundo-node:latest .'
+                script {
+                    docker.build('hola-mundo-node:latest', '.')
+                }
             }
         }
 
         stage('Ejecutar Contenedor Node.js') {
             steps {
-                sh '''
-                    # Detener y eliminar cualquier contenedor previo
-                    docker stop hola-mundo-node || true
-                    docker rm hola-mundo-node || true
-
-                    # Ejecutar el contenedor de la aplicación
-                    docker run -d --name hola-mundo-node -p 3000:3000 hola-mundo-node:latest
-                '''
+                script {
+                    docker.image('hola-mundo-node:latest').run('-d --name hola-mundo-node -p 3000:3000')
+                }
             }
         }
     }
