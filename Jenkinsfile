@@ -6,6 +6,10 @@ pipeline {
         dockerTool 'DockerTool'  // Cambia el nombre de la herramienta según tu configuración en Jenkins
     }
 
+    environment {
+        DOCKER_API_VERSION = '1.40'
+    }
+
     stages {
         stage('Construir Imagen Docker') {
             steps {
