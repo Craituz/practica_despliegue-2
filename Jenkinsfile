@@ -8,7 +8,7 @@ pipeline {
  
     tools {
         // Mantenemos tu herramienta de Docker para que provea el comando 'docker'
-        dockerTool 'Dockertool'  
+        dockerTool 'DockerTool'  
     }
  
     stages {
